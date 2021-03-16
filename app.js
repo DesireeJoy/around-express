@@ -1,27 +1,20 @@
-mport Express from "express";
-import Random from "./random.js";
-const app = Express();
-const { PORT= 3000} = app;
+const express = require("express");
+const path = require("path");
 
-app.use(Express.urlencoded({ extended: true }));
+const usersRouter = require("./routes/users");
+const cardsRouter = require("./routes/cards");
 
+// listen to port 3000
+const { PORT = 3000 } = process.env;
+const app = express();
 
-
-
-app.get("/user/:id", mid, (req, res) => {
-  res.json(
-    Random.find((user) => {
-      return +req.params.id === user.id;
-    })
-  );
-});
-app.use(express.static(path.join(__dirname, "public")));
-
-
-app.post("/add", (req, res) => {
-  console.log(req);
-  res.send(req.body);
-  res.sendStatus(200);
+app.use("/users", usersRouter);
+app.use("/cards", cardsRouter);
+app.get("*", (req, res) => {
+  res.status(404).send({ message: "Requested resource not found" });
 });
 
-app.listen(port, () => console.log("Listening on Port 3000"));
+app.listen(PORT, () => {
+  // if everything works fine, the console will show which port the application is listening to
+  console.log(`App listening at port ${PORT}`);
+});
