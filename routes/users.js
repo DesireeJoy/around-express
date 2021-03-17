@@ -7,7 +7,7 @@ const dataPath = path.join(__dirname, "../data/users.json"); // joining the path
 router.get("/", (req, res) => {
   fs.readFile(dataPath, { encoding: "utf8" })
     .then((data) => {
-      res.status(200).send(data);
+      res.status(200).send(JSON.parse(data));
     })
     .catch(() => {
       res.status(500).send({ message: "File not found" });
