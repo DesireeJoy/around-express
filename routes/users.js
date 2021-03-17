@@ -17,12 +17,18 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  const selectedUser = users.find((user) => user._id === req.params.id);
-  if (!selectedUser) {
-    res.status(404).send({ message: "User ID not found" });
-  } else {
-    res.send(selectedUser);
-  }
+  fs.readFile(dataPath, "utf8")
+    .then((data) => {
+      const selectedUser = users.find((user) => user._id === req.params.id);
+      if (!selectedUser) {
+        res.status(404).send({ message: "User ID not found" });
+      } else {
+        res.send(selectedUser);
+      }
+    })
+    .catch(() => {
+      res.status(500).send({ message: "File not found" });
+    });
 });
 
 module.exports = router;
