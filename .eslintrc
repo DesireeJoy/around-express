@@ -1,8 +1,7 @@
 {
-  "extends": "airbnb-base"
-}
-{
+  "extends": "airbnb-base",
   "rules": {
     "no-underscore-dangle": "off",
+    "quotes": [0, "double"]
   }
 }
