@@ -26,7 +26,7 @@ router.get("/:id", (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      res.statut(404).send({ message: "File not found" });
     });
 });
 
