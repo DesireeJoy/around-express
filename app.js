@@ -1,5 +1,13 @@
 const express = require("express");
 
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:27017/aroundb", {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+});
+
 const usersRouter = require("./routes/users");
 const cardsRouter = require("./routes/cards");
 
