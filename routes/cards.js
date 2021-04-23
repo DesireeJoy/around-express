@@ -1,8 +1,6 @@
-// const router = require("express").Router();
+const express = require("express");
+const router = express.Router();
 // const path = require("path");
-// const fs = require("fs").promises;
-
-// const dataPath = path.join(__dirname, "../data/cards.json"); // joining the path segments to create an absolute path
 
 // router.get("/", (req, res) => {
 //   fs.readFile(dataPath, { encoding: "utf8" })
@@ -15,10 +13,6 @@
 // });
 
 // module.exports = router;
-
-const express = require("express");
-const router = express.Router();
-
 const {
   getCards,
   deleteCard,
