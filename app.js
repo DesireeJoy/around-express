@@ -1,6 +1,7 @@
 const express = require("express");
 
 const mongoose = require("mongoose");
+var bodyParser = require("body-parser");
 
 mongoose.connect("mongodb://localhost:27017/aroundb", {
   useNewUrlParser: true,
@@ -19,7 +20,14 @@ const cardsRouter = require("./routes/cards");
 // listen to port 3000
 const { PORT = 3000 } = process.env;
 const app = express();
+app.use(bodyParser.json());
+app.use((req, res, next) => {
+  req.user = {
+    _id: "6084301397633b06c23ceede", // paste the _id of the test user created in the previous step
+  };
 
+  next();
+});
 app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);
 app.get("*", (req, res) => {

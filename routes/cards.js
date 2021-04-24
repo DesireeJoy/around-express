@@ -19,8 +19,8 @@ const {
   createCard,
 } = require("../controllers/cardController");
 
-router.get("/cards", getCards);
-router.post("/cards", createCard);
-router.delete("/cards/:cardId", deleteCard);
+router.get("/", getCards);
+router.post("/", createCard);
+router.delete("/:cardId", deleteCard);
 
 module.exports = router;

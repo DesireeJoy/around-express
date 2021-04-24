@@ -32,13 +32,13 @@ const router = require("express").Router();
 
 // module.exports = router;
 const {
-  // getOneUser,
+  getOneUser,
   getUsers,
   createUser,
 } = require("../controllers/userController");
 
-router.get("/users", getUsers);
-router.post("/users", createUser);
-// router.delete("/users/:userId", getOneUser);
+router.get("/", getUsers);
+router.post("/", createUser);
+router.delete("/:userId", getOneUser);
 
 module.exports = router;
