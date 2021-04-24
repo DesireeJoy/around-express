@@ -40,5 +40,7 @@ const {
 router.get("/", getUsers);
 router.post("/", createUser);
 router.delete("/:userId", getOneUser);
+router.patch("/me/avatar", updateAvatar);
+router.patch("/me", updateUser);
 
 module.exports = router;
