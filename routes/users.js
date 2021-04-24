@@ -35,6 +35,8 @@ const {
   getOneUser,
   getUsers,
   createUser,
+  updateAvatar,
+  updateUser,
 } = require("../controllers/userController");
 
 router.get("/", getUsers);

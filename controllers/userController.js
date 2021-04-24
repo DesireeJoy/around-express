@@ -84,4 +84,6 @@ module.exports = {
   getOneUser,
   getUsers,
   createUser,
+  updateUser,
+  updateAvatar,
 };
