@@ -1,6 +1,6 @@
 const Card = require("../models/card");
 
-const getCards(req, res) {
+function getCards(req, res) {
   Card.find({})
     .then((cards) => {
       res.status(200).send(cards);
@@ -8,13 +8,13 @@ const getCards(req, res) {
     .catch();
 }
 
-const deleteCard(req, res) {
+const deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
         return res.status(404).send({ message: "Card Not Found" });
       }
-      res.status(200).send({ message: "Card Deleted"});
+      res.status(200).send({ message: "Card Deleted" });
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -22,9 +22,9 @@ const deleteCard(req, res) {
       }
       return res.status(400).send({ message: "invalid Data" });
     });
-}
+};
 
-const createCard(req, res) {
+const createCard = (req, res) => {
   const { name, link } = req.body;
   Card.create({
     name,
@@ -41,7 +41,7 @@ const createCard(req, res) {
         return res.status(400).send({ message: "Invalid data" });
       }
     });
-}
+};
 const likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
