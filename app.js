@@ -20,6 +20,8 @@ const cardsRouter = require("./routes/cards");
 // listen to port 3000
 const { PORT = 3000 } = process.env;
 const app = express();
+var helmet = require("helmet");
+app.use(helmet());
 app.use(bodyParser.json());
 app.use((req, res, next) => {
   req.user = {
