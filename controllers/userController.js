@@ -49,7 +49,11 @@ function updateUser(req, res) {
     { new: true, runValidators: true }
   )
     .then((user) => {
-      res.status(200).send(user);
+      if (!user) {
+        res.status(404).send({ message: "User not found" });
+      } else {
+        return res.status(200).send({ data: user });
+      }
     })
     .catch((err) => {
       if (err.name === "CastError") {
