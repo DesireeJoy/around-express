@@ -3,6 +3,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
 
 mongoose.connect("mongodb://localhost:27017/aroundb", {
   useNewUrlParser: true,
@@ -19,6 +25,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(helmet());
+app.use(limiter);
 app.use(bodyParser.json());
 app.use((req, res, next) => {
   req.user = {

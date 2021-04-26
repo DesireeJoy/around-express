@@ -1,6 +1,4 @@
 const User = require("../models/user");
-const express = require("express");
-const router = express.Router();
 
 function getUsers(req, res) {
   return User.find({})
@@ -43,17 +41,12 @@ function createUser(req, res) {
 }
 function updateUser(req, res) {
   const { name, about } = req.body;
-  return User.findByIdAndUpdate(
-    req.params.id,
-    { name, about },
-    { new: true, runValidators: true }
-  )
+  return User.findByIdAndUpdate(req.params.id, { name, about })
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: "User not found" });
-      } else {
-        return res.status(200).send({ data: user });
       }
+      return res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === "CastError") {
@@ -69,14 +62,13 @@ function updateAvatar(req, res) {
   return User.findByIdAndUpdate(
     req.params.id,
     { avatar },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: "User not found" });
-      } else {
-        return res.status(200).send({ data: user });
       }
+      return res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === "CastError") {

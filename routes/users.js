@@ -1,8 +1,10 @@
 const router = require("express").Router();
+
 // const path = require("path");
 // const fs = require("fs").promises;
 
-// const dataPath = path.join(__dirname, "../data/users.json"); // joining the path segments to create an absolute path
+// const dataPath = path.join(__dirname, "../data/users.json");
+// joining the path segments to create an absolute path
 
 // router.get("/", (req, res) => {
 //   fs.readFile(dataPath, { encoding: "utf8" })

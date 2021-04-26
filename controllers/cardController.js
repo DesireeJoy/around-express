@@ -14,7 +14,7 @@ const deleteCard = (req, res) => {
       if (!card) {
         return res.status(404).send({ message: "Card Not Found" });
       }
-      res.status(200).send({ message: "Card Deleted" });
+      return res.status(200).send({ message: "Card Deleted" });
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -35,33 +35,32 @@ const createCard = (req, res) => {
       res.status(200).send(card);
     })
     .catch((err) => {
-      if (err.name === "CastError") {
-        return res.status(500).send({ message: "Internal Server Error" });
-      } else {
+      if (err.name === "ValidationError") {
         return res.status(400).send({ message: "Invalid data" });
       }
+      return res.status(500).send({ message: "Error" });
     });
 };
 const likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
-    { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { $addToSet: { likes: req.user._id } }, // add _id to the array if it's not there yet
+    { new: true },
   )
     .then((card) => {
-      if (card) {
-        return res.status(200).send(card);
-      } else {
-        return res.status(404).send({ message: "Card not found to like" });
+      if (!card) {
+        res.status(404).send({ message: "Card not found" });
       }
+      return res.status(200).send({ data: card });
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return res
-          .status(400)
-          .send({ message: "This is not the card you are looking for" });
+        return res.status(400).send({ message: "Invalid card" });
       }
-      return res.status(500).send({ message: "Internal Server Error" });
+      if (err.name === "NotFound") {
+        return res.status(404).send({ message: "Card not found" });
+      }
+      return res.status(500).send({ message: "Error" });
     });
 };
 
@@ -69,14 +68,13 @@ const dislikeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((card) => {
       if (card) {
         return res.status(200).send(card);
-      } else {
-        return res.status(404).send({ message: "Card not found to dislike" });
       }
+      return res.status(404).send({ message: "Card not found to dislike" });
     })
     .catch((err) => {
       if (err.name === "CastError") {
