@@ -12,10 +12,9 @@ function getOneUser(req, res) {
   User.findById(req.params.userId)
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: "User ID not found" });
-      } else {
-        return res.status(200).send({ data: user });
+        return res.status(404).send({ message: "User ID not found" });
       }
+      return res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === "CastError") {
@@ -49,7 +48,7 @@ function updateUser(req, res) {
     {
       new: true,
       runValidators: true,
-    }
+    },
   )
     .then((user) => {
       if (!user) {
@@ -71,7 +70,7 @@ function updateAvatar(req, res) {
   return User.findByIdAndUpdate(
     req.params.id,
     { avatar },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => {
       if (!user) {
