@@ -9,20 +9,22 @@ function getUsers(req, res) {
 }
 
 function getOneUser(req, res) {
-  return User.findById({ _id: req.params.id })
+  User.findById(req.params.userId)
     .then((user) => {
-      if (user) {
-        return res.status(200).send(user);
+      if (!user) {
+        res.status(404).send({ message: "User ID not found" });
+      } else {
+        return res.status(200).send({ data: user });
       }
-      return res.status(404).send({ message: "User ID not found" });
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return res
-          .status(400)
-          .send({ message: "This is not the card you are looking for" });
+        return res.status(400).send({ message: "Invalid user" });
       }
-      return res.status(500).send({ message: "Internal Server Error" });
+      if (err.name === "NotFound") {
+        return res.status(404).send({ message: "User not found" });
+      }
+      return res.status(500).send({ message: "Error" });
     });
 }
 
@@ -41,7 +43,15 @@ function createUser(req, res) {
 }
 function updateUser(req, res) {
   const { name, about } = req.body;
-  return User.findByIdAndUpdate(req.params.id, { name, about })
+  User.findByIdAndUpdate(
+    req.params.id,
+    { name, about },
+    {
+      new: true,
+      runValidators: true,
+      upsert: true,
+    }
+  )
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: "User not found" });
@@ -62,7 +72,7 @@ function updateAvatar(req, res) {
   return User.findByIdAndUpdate(
     req.params.id,
     { avatar },
-    { new: true, runValidators: true },
+    { new: true, runValidators: true }
   )
     .then((user) => {
       if (!user) {
